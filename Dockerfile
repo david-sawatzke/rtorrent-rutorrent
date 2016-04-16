@@ -37,7 +37,6 @@ ADD init.sh /root/
 ADD supervisord.conf /etc/supervisor/conf.d/
 
 EXPOSE 80
-EXPOSE 443
 EXPOSE 49160
 EXPOSE 49161
 VOLUME /downloads
