@@ -18,16 +18,12 @@ RUN mkdir -p /var/www && \
     unzip ruTorrent-3.7.zip && \
     mv ruTorrent-master /var/www/rutorrent && \
     rm ruTorrent-3.7.zip
+RUN groupadd share
+RUN useradd -d /home/rtorrent -m -s /bin/bash rtorrent
+RUN usermod -aG share www-data
+RUN usermod -aG share rtorrent
 ADD ./config.php /var/www/rutorrent/conf/
 RUN chown -R www-data:www-data /var/www/rutorrent
-
-# configure diskspace plugin so rutorrent can monitor the volume mounted by docker
-RUN sed -i 's/&$topDirectory/\/downloads/g' /var/www/rutorrent/plugins/diskspace/conf.php
-
-# configure rtorrent
-RUN useradd -d /home/rtorrent -m -s /bin/bash rtorrent
-ADD .rtorrent.rc /etc/rtorrent.rc
-RUN chown -R rtorrent:rtorrent /home/rtorrent
 
 # add startup and init script
 ADD startup.sh /root/

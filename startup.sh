@@ -6,8 +6,8 @@ mkdir /config
 cp /downloads/.htpasswd /var/www/rutorrent/
 cp /etc/rtorrent.rc /config/.rtorrent.rc
 mkdir -p /config/rutorrent/torrents
-chown -R www-data:www-data /config/rutorrent
-chown -R "nobody":"users" /downloads/.session /watch /config/.rtorrent.rc
+chown -R www-data:share /config/rutorrent
+chown -R rtorrent /downloads/.session /watch /config/.rtorrent.rc
 
 rm -f /downloads/.session/rtorrent.lock
 
