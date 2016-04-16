@@ -1,11 +1,13 @@
 #!/bin/bash
 
-mkdir /downloads/.session 
-mkdir /downloads/watch 
-chown rtorrent:rtorrent /downloads/.session /downloads/watch 
+mkdir /downloads/.session
+mkdir /watch
+mkdir /config
 cp /downloads/.htpasswd /var/www/rutorrent/
-mkdir -p /downloads/config/torrents 
-chown -R www-data:www-data /downloads/config
+cp /etc/rtorrent.rc /config/.rtorrent.rc
+mkdir -p /config/rutorrent/torrents
+chown -R www-data:www-data /config/rutorrent
+chown -R "nobody":"users" /downloads/.session /watch /config/.rtorrent.rc
 
 rm -f /downloads/.session/rtorrent.lock
 
@@ -29,8 +31,8 @@ fi
 cp /root/$site /etc/nginx/sites-enabled/
 
 # Check if .htpasswd presents
-if [ -e /downloads/.htpasswd ]; then
-cp /downloads/.htpasswd /var/www/rutorrent/ && chmod 755 /var/www/rutorrent/.htpasswd && chown www-data:www-data /var/www/rutorrent/.htpasswd
+if [ -e /config/.htpasswd ]; then
+cp /config/.htpasswd /var/www/rutorrent/ && chmod 755 /var/www/rutorrent/.htpasswd && chown www-data:www-data /var/www/rutorrent/.htpasswd
 else
 # disable basic auth
 sed -i 's/auth_basic/#auth_basic/g' /etc/nginx/sites-enabled/$site

@@ -26,11 +26,12 @@ RUN sed -i 's/&$topDirectory/\/downloads/g' /var/www/rutorrent/plugins/diskspace
 
 # configure rtorrent
 RUN useradd -d /home/rtorrent -m -s /bin/bash rtorrent
-ADD .rtorrent.rc /home/rtorrent/
+ADD .rtorrent.rc /etc/rtorrent.rc
 RUN chown -R rtorrent:rtorrent /home/rtorrent
 
-# add startup script
+# add startup and init script
 ADD startup.sh /root/
+ADD init.sh /root/
 
 # configure supervisor
 ADD supervisord.conf /etc/supervisor/conf.d/
@@ -40,5 +41,7 @@ EXPOSE 443
 EXPOSE 49160
 EXPOSE 49161
 VOLUME /downloads
+VOLUME /watch
+VOLUME /config
 
-CMD ["supervisord"]
+CMD ["/root/init.sh"]
