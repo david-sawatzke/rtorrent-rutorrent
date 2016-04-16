@@ -17,19 +17,6 @@ rm -rf /etc/nginx/ssl
 
 rm /var/www/rutorrent/.htpasswd
 
-# Basic auth enabled by default
-site=rutorrent-basic.nginx
-
-# Check if TLS needed
-if [[ -e /downloads/nginx.key && -e /downloads/nginx.crt ]]; then
-mkdir -p /etc/nginx/ssl
-cp /downloads/nginx.crt /etc/nginx/ssl/
-cp /downloads/nginx.key /etc/nginx/ssl/
-site=rutorrent-tls.nginx
-fi
-
-cp /root/$site /etc/nginx/sites-enabled/
-
 # Check if .htpasswd presents
 if [ -e /config/.htpasswd ]; then
 cp /config/.htpasswd /var/www/rutorrent/ && chmod 755 /var/www/rutorrent/.htpasswd && chown www-data:www-data /var/www/rutorrent/.htpasswd
