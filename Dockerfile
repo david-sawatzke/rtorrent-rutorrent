@@ -18,8 +18,10 @@ RUN mkdir -p /var/www && \
     unzip ruTorrent-3.7.zip && \
     mv ruTorrent-master /var/www/rutorrent && \
     rm ruTorrent-3.7.zip && \
-    git clone https://github.com/xombiemp/rutorrentMobile.git /var/www/rutorrent/plugins/mobile && \
-    rm -rf /var/www/rutorrent/plugins/mobile/.git
+    wget https://github.com/xombiemp/rutorrentMobile/archive/master.zip && \
+    unzip master.zip && \
+    mv rutorrentMobile-master /var/www/rutorrent/plugins/mobile && \
+    rm master.zip
 RUN groupadd share
 RUN useradd -d /home/rtorrent -m -s /bin/bash rtorrent
 RUN usermod -aG share www-data
