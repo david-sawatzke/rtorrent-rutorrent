@@ -17,7 +17,9 @@ RUN mkdir -p /var/www && \
     wget https://bintray.com/artifact/download/novik65/generic/ruTorrent-3.7.zip && \
     unzip ruTorrent-3.7.zip && \
     mv ruTorrent-master /var/www/rutorrent && \
-    rm ruTorrent-3.7.zip
+    rm ruTorrent-3.7.zip && \
+    git clone https://github.com/xombiemp/rutorrentMobile.git /var/www/rutorrent/plugins/mobile && \
+    rm -rf /var/www/rutorrent/plugins/mobile/.git
 RUN groupadd share
 RUN useradd -d /home/rtorrent -m -s /bin/bash rtorrent
 RUN usermod -aG share www-data
