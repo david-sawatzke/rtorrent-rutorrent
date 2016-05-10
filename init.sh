@@ -14,4 +14,4 @@ echo "[info] Env var PGID defined as ${PGID}"
 
 echo "[info] Starting Supervisor..."
 
-supervisord
+exec supervisord
