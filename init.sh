@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# exit script if return code != 0
-set -eu
-
-
 # set user nobody to specified user id (non unique)
 usermod -o -u "${PUID}" rtorrent
 echo "[info] Env var PUID  defined as ${PUID}"
@@ -13,10 +9,9 @@ groupmod -o -g "${PGID}" share
 echo "[info] Env var PGID defined as ${PGID}"
 
 
-mkdir /downloads/.session
-mkdir /watch
-mkdir /config
-cp /downloads/.htpasswd /var/www/rutorrent/
+mkdir -p /downloads/.session
+mkdir -p /watch
+mkdir -p /config
 cp /etc/rtorrent.rc /config/.rtorrent.rc
 mkdir -p /config/rutorrent/torrents
 chown -R www-data:share /config/rutorrent
