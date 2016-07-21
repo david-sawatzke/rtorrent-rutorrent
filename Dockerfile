@@ -14,14 +14,14 @@ ADD rutorrent-*.nginx /root/
 
 # download rutorrent
 RUN mkdir -p /var/www && \
-    wget https://bintray.com/artifact/download/novik65/generic/ruTorrent-3.7.zip && \
-    unzip ruTorrent-3.7.zip && \
-    mv ruTorrent-master /var/www/rutorrent && \
-    rm ruTorrent-3.7.zip && \
-    wget https://github.com/xombiemp/rutorrentMobile/archive/master.zip && \
-    unzip master.zip && \
-    mv rutorrentMobile-master /var/www/rutorrent/plugins/mobile && \
-    rm master.zip
+    wget -O /tmp/ruTorrent.zip https://bintray.com/artifact/download/novik65/generic/ruTorrent-3.7.zip && \
+    unzip -d /tmp /tmp/ruTorrent.zip && \
+    mv /tmp/ruTorrent-master /var/www/rutorrent && \
+    rm /tmp/ruTorrent.zip && \
+    wget -O /tmp/ruTorrentMobile.zip https://github.com/xombiemp/ruTorrentMobile/archive/master.zip && \
+    unzip -d /tmp /tmp/ruTorrentMobile.zip && \
+    mv /tmp/rutorrentMobile-master /var/www/rutorrent/plugins/mobile && \
+    rm /tmp/ruTorrentMobile.zip
 RUN groupadd share
 RUN useradd -d /home/rtorrent -m -s /bin/bash rtorrent
 RUN usermod -aG share www-data
@@ -29,8 +29,7 @@ RUN usermod -aG share rtorrent
 ADD ./config.php /var/www/rutorrent/conf/
 RUN chown -R www-data:www-data /var/www/rutorrent
 
-# add startup and init script
-ADD startup.sh /root/
+# add init script
 ADD init.sh /root/
 
 # configure supervisor
