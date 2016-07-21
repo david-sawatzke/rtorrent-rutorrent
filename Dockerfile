@@ -14,20 +14,20 @@ ADD nginx.conf /etc/nginx/
 
 # download rutorrent
 RUN mkdir -p /var/www && \
-    wget -O /tmp/ruTorrent.zip https://bintray.com/artifact/download/novik65/generic/ruTorrent-3.7.zip && \
-    unzip -d /tmp /tmp/ruTorrent.zip && \
-    mv /tmp/ruTorrent-master /var/www/rutorrent && \
-    rm /tmp/ruTorrent.zip && \
-    wget -O /tmp/ruTorrentMobile.zip https://github.com/xombiemp/ruTorrentMobile/archive/master.zip && \
-    unzip -d /tmp /tmp/ruTorrentMobile.zip && \
-    mv /tmp/rutorrentMobile-master /var/www/rutorrent/plugins/mobile && \
-    rm /tmp/ruTorrentMobile.zip
-RUN groupadd share
-RUN useradd -d /home/rtorrent -m -s /bin/bash rtorrent
-RUN usermod -aG share www-data
-RUN usermod -aG share rtorrent
-ADD ./config.php /var/www/rutorrent/conf/
-RUN chown -R www-data:www-data /var/www/rutorrent
+	wget -O /tmp/ruTorrent.zip https://bintray.com/artifact/download/novik65/generic/ruTorrent-3.7.zip && \
+	unzip -d /tmp /tmp/ruTorrent.zip && \
+	mv /tmp/ruTorrent-master /var/www/rutorrent && \
+	rm /tmp/ruTorrent.zip && \
+	wget -O /tmp/ruTorrentMobile.zip https://github.com/xombiemp/ruTorrentMobile/archive/master.zip && \
+	unzip -d /tmp /tmp/ruTorrentMobile.zip && \
+	mv /tmp/rutorrentMobile-master /var/www/rutorrent/plugins/mobile && \
+	rm /tmp/ruTorrentMobile.zip && \
+	groupadd share && \
+	useradd -d /home/rtorrent -m -s /bin/bash rtorrent && \
+	usermod -aG share www-data && \
+	usermod -aG share rtorrent && \
+	./config.php /var/www/rutorrent/conf/ && \
+	chown -R www-data:www-data /var/www/rutorrent
 
 # add init script
 ADD init.sh /root/
