@@ -10,7 +10,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # configure nginx
-ADD rutorrent-*.nginx /root/
+ADD nginx.conf /etc/nginx/
 
 # download rutorrent
 RUN mkdir -p /var/www && \
