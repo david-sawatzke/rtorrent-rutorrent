@@ -23,11 +23,8 @@ RUN mkdir -p /var/www && \
 	unzip -d /tmp /tmp/ruTorrent.zip && \
 	mv /tmp/ruTorrent-master /var/www/rutorrent && \
 	rm /tmp/ruTorrent.zip && \
-	wget -O /tmp/ruTorrentMobile.zip https://github.com/xombiemp/ruTorrentMobile/archive/master.zip && \
-	unzip -d /tmp /tmp/ruTorrentMobile.zip && \
-	mv /tmp/rutorrentMobile-master /var/www/rutorrent/plugins/mobile && \
-	rm /tmp/ruTorrentMobile.zip && \
-	chown -R nginx /var/www/rutorrent
+	chown -R nginx /var/www/rutorrent && \
+	chown -R nginx /var/lib/nginx
 
 # Add rutorrent config
 ADD ./config.php /var/www/rutorrent/conf/
