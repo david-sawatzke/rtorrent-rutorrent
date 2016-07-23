@@ -1,21 +1,19 @@
-#!/bin/bash
+#!/bin/sh
 
-# set user nobody to specified user id (non unique)
-usermod -o -u "${PUID}" rtorrent
-echo "[info] Env var PUID  defined as ${PUID}"
-
-# set group users to specified group id (non unique)
-groupmod -o -g "${PGID}" share
-echo "[info] Env var PGID defined as ${PGID}"
-
+deluser rtorrent
+delgroup share
+adduser -u $PUID -s /bin/sh -D -G nobody rtorrent
+addgroup -g $PGID share
+addgroup nginx share
+addgroup rtorrent share
 
 mkdir -p /downloads/.session
 mkdir -p /watch
 mkdir -p /config
-cp /etc/rtorrent.rc /config/.rtorrent.rc
 mkdir -p /config/rutorrent/torrents
-chown -R www-data:share /config/rutorrent
-chown -R rtorrent /downloads/.session /watch /config/.rtorrent.rc
+chown -R nginx:share /config/rutorrent
+chown -R rtorrent /watch /config/.rtorrent.rc
+chown -R rtorrent:share /downloads
 
 rm -f /downloads/.session/rtorrent.lock
 
@@ -23,7 +21,7 @@ rm /var/www/rutorrent/.htpasswd
 
 # Check if .htpasswd presents
 if [ -e /config/.htpasswd ]; then
-	cp /config/.htpasswd /var/www/rutorrent/ && chmod 755 /var/www/rutorrent/.htpasswd && chown www-data:www-data /var/www/rutorrent/.htpasswd
+	cp /config/.htpasswd /var/www/rutorrent/ && chmod 755 /var/www/rutorrent/.htpasswd && chown nginx /var/www/rutorrent/.htpasswd
 	# enable basic auth
 	sed -i 's/#auth_basic/auth_basic/g' /etc/nginx/nginx.conf
 else
@@ -31,6 +29,4 @@ else
 	sed -i 's/auth_basic/#auth_basic/g' /etc/nginx/nginx.conf
 fi
 
-echo "[info] Starting Supervisor..."
-
-exec supervisord
+exec supervisord -c /etc/supervisor/supervisord.conf

@@ -1,16 +1,21 @@
-FROM ubuntu
-USER root
+FROM alpine
+MAINTAINER David Sawatzke <david@sawatzke.de>
 
-# add ffmpeg ppa
-ADD ./ffmpeg-next.list /etc/apt/sources.list.d/ffmpeg-next.list
-
-# install
-RUN apt-get update && \
-    apt-get install -y --force-yes rtorrent unzip unrar-free mediainfo curl php5-fpm php5-cli php5-geoip nginx wget ffmpeg supervisor && \
-    rm -rf /var/lib/apt/lists/*
-
-# configure nginx
-ADD nginx.conf /etc/nginx/
+# Install needed packages
+# Geoip is currently in testing
+RUN apk add --no-cache \
+	rtorrent \
+	unzip \
+	unrar \
+	curl \
+	php-fpm \
+	php-cli \
+	php-json \
+#	php-geoip \
+	nginx \
+	wget \
+	ffmpeg \
+	supervisor
 
 # download rutorrent
 RUN mkdir -p /var/www && \
@@ -22,18 +27,22 @@ RUN mkdir -p /var/www && \
 	unzip -d /tmp /tmp/ruTorrentMobile.zip && \
 	mv /tmp/rutorrentMobile-master /var/www/rutorrent/plugins/mobile && \
 	rm /tmp/ruTorrentMobile.zip && \
-	groupadd share && \
-	useradd -d /home/rtorrent -m -s /bin/bash rtorrent && \
-	usermod -aG share www-data && \
-	usermod -aG share rtorrent && \
-	./config.php /var/www/rutorrent/conf/ && \
-	chown -R www-data:www-data /var/www/rutorrent
+	chown -R nginx /var/www/rutorrent
 
-# add init script
+# Add rutorrent config
+ADD ./config.php /var/www/rutorrent/conf/
+
+# Add nginx config
+ADD nginx.conf /etc/nginx/
+
+# Add php-fpm config
+ADD php-fpm.conf /etc/php/php-fpm.conf
+
+# Add init script
 ADD init.sh /root/
 
-# configure supervisor
-ADD supervisord.conf /etc/supervisor/conf.d/
+# Add supervisor config
+ADD supervisord.conf /etc/supervisor/
 
 EXPOSE 80
 EXPOSE 49160
