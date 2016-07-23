@@ -36,7 +36,7 @@ ADD nginx.conf /etc/nginx/
 ADD php-fpm.conf /etc/php/php-fpm.conf
 
 # Add init script
-ADD init.sh /root/
+ADD init.sh /
 
 # Add supervisor config
 ADD supervisord.conf /etc/supervisor/
@@ -48,4 +48,4 @@ VOLUME /downloads
 VOLUME /watch
 VOLUME /config
 
-CMD ["/root/init.sh"]
+CMD ["/init.sh"]
