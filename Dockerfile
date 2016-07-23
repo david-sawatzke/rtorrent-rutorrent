@@ -21,13 +21,13 @@ RUN apk add --no-cache \
 RUN mkdir -p /var/www && \
 	wget -O /tmp/ruTorrent.zip https://bintray.com/artifact/download/novik65/generic/ruTorrent-3.7.zip && \
 	unzip -d /tmp /tmp/ruTorrent.zip && \
-	mv /tmp/ruTorrent-master /var/www/rutorrent && \
+	mv /tmp/ruTorrent-master /rutorrent && \
 	rm /tmp/ruTorrent.zip && \
-	chown -R nginx /var/www/rutorrent && \
+	chown -R nginx /rutorrent && \
 	chown -R nginx /var/lib/nginx
 
 # Add rutorrent config
-ADD ./config.php /var/www/rutorrent/conf/
+ADD ./config.php /rutorrent/conf/
 
 # Add nginx config
 ADD nginx.conf /etc/nginx/

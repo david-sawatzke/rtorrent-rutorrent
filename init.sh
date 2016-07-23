@@ -17,11 +17,11 @@ chown -R rtorrent:share /downloads
 
 rm -f /downloads/.session/rtorrent.lock
 
-rm /var/www/rutorrent/.htpasswd
+rm /rutorrent/.htpasswd
 
 # Check if .htpasswd presents
 if [ -e /config/.htpasswd ]; then
-	cp /config/.htpasswd /var/www/rutorrent/ && chmod 755 /var/www/rutorrent/.htpasswd && chown nginx /var/www/rutorrent/.htpasswd
+	cp /config/.htpasswd /rutorrent/ && chmod 755 /rutorrent/.htpasswd && chown nginx /rutorrent/.htpasswd
 	# enable basic auth
 	sed -i 's/#auth_basic/auth_basic/g' /etc/nginx/nginx.conf
 else
