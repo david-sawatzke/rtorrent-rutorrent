@@ -29,4 +29,9 @@ else
 	sed -i 's/auth_basic/#auth_basic/g' /etc/nginx/nginx.conf
 fi
 
-exec supervisord -c /etc/supervisor/supervisord.conf
+# Create a pipe to filter the "reaped unknown pid" messages out as they just
+# pollute the logs and don't add anything meaningfull
+mkfifo /tmp/output
+grep -v "INFO reaped unknown pid" < /tmp/output &
+
+exec supervisord -c /etc/supervisor/supervisord.conf > /tmp/output
