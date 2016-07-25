@@ -31,6 +31,8 @@ fi
 
 # Create a pipe to filter the "reaped unknown pid" messages out as they just
 # pollute the logs and don't add anything meaningfull
+# As tmp doesn't get cleared with restart, remove any leftovers
+rm /tmp/output 2> /dev/null
 mkfifo /tmp/output
 grep -v "INFO reaped unknown pid" < /tmp/output &
 
