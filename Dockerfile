@@ -16,10 +16,9 @@ RUN apk add --no-cache \
 	wget \
 	ffmpeg \
 	openssl \
-	supervisor
-
+	supervisor && \
 # download rutorrent
-RUN mkdir -p /var/www && \
+  	mkdir -p /var/www && \
 	wget -O /tmp/ruTorrent.zip https://bintray.com/artifact/download/novik65/generic/ruTorrent-3.7.zip && \
 	unzip -d /tmp /tmp/ruTorrent.zip && \
 	mv /tmp/ruTorrent-master /rutorrent && \
