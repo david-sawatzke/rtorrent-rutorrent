@@ -44,8 +44,6 @@ ADD supervisord.conf /etc/supervisor/
 EXPOSE 80
 EXPOSE 49160
 EXPOSE 49161
-VOLUME /downloads
-VOLUME /watch
-VOLUME /config
+VOLUME ["/downloads", "/watch", "/config"]
 
 CMD ["/init.sh"]
