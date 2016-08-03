@@ -1,4 +1,4 @@
-FROM alpine
+FROM alpine:3.4
 MAINTAINER David Sawatzke <david@sawatzke.de>
 
 # Install needed packages
@@ -8,13 +8,14 @@ RUN apk add --no-cache \
 	unzip \
 	unrar \
 	curl \
-	php-fpm \
-	php-cli \
-	php-json \
+	php5-fpm \
+	php5-cli \
+	php5-json \
 #	php-geoip \
 	nginx \
 	wget \
 	ffmpeg \
+	openssl \
 	supervisor
 
 # download rutorrent
@@ -33,7 +34,7 @@ ADD ./config.php /rutorrent/conf/
 ADD nginx.conf /etc/nginx/
 
 # Add php-fpm config
-ADD php-fpm.conf /etc/php/php-fpm.conf
+ADD php-fpm.conf /etc/php5/php-fpm.conf
 
 # Add init script
 ADD init.sh /
