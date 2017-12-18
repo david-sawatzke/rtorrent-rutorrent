@@ -1,4 +1,4 @@
-FROM alpine:3.4
+FROM alpine:3.5
 MAINTAINER David Sawatzke <david@sawatzke.de>
 
 # Install needed packages
@@ -16,15 +16,18 @@ RUN apk add --no-cache \
       wget \
       ffmpeg \
       openssl \
+      libressl \
+      ca-certificates \
       supervisor \
-    # download rutorrent
     && mkdir -p /var/www \
-    && wget -O /tmp/ruTorrent.zip https://bintray.com/artifact/download/novik65/generic/ruTorrent-3.7.zip \
-    && unzip -d /tmp /tmp/ruTorrent.zip \
-    && mv /tmp/ruTorrent-master /rutorrent \
-    && rm /tmp/ruTorrent.zip \
+    && wget -O /tmp/ruTorrent.tar.gz https://github.com/Novik/ruTorrent/archive/v3.8.tar.gz \
+    && tar -xzf /tmp/ruTorrent.tar.gz -C /tmp \
+    && rm /tmp/ruTorrent.tar.gz \
+    && mv /tmp/ruTorrent-* /rutorrent \
     && chown -R nginx /rutorrent \
-    && chown -R nginx /var/lib/nginx
+    && chown -R nginx /var/lib/nginx \
+    && mkdir /home/rtorrent \
+    && ln -s /config/.rtorrent.rc /home/rtorrent/.rtorrent.rc
 
 # Add rutorrent config
 ADD ./config.php /rutorrent/conf/

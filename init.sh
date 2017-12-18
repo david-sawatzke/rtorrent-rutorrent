@@ -10,7 +10,7 @@ addgroup rtorrent share
 mkdir -p /downloads/.session
 mkdir -p /watch
 mkdir -p /config
-mkdir -p /config/rutorrent/torrents
+mkdir -p /config/rutorrent
 chown -R nginx:share /config/rutorrent
 chown -R rtorrent /watch /config/.rtorrent.rc
 chown -R rtorrent:share /downloads
