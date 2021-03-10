@@ -1,4 +1,4 @@
-FROM alpine:3.5
+FROM alpine:3.9
 MAINTAINER David Sawatzke <david@sawatzke.de>
 
 # Install needed packages
@@ -8,19 +8,20 @@ RUN apk add --no-cache \
       unzip \
       unrar \
       curl \
-      php5-fpm \
-      php5-cli \
-      php5-json \
+      php7 \
+      php7-fpm \
+      php7-json \
+      # php5-cli \
       #	php-geoip \
       nginx \
       wget \
       ffmpeg \
       openssl \
-      libressl \
       ca-certificates \
       supervisor \
+      mediainfo \
     && mkdir -p /var/www \
-    && wget -O /tmp/ruTorrent.tar.gz https://github.com/Novik/ruTorrent/archive/v3.8.tar.gz \
+    && wget -O /tmp/ruTorrent.tar.gz https://github.com/Novik/ruTorrent/archive/v3.9.tar.gz \
     && tar -xzf /tmp/ruTorrent.tar.gz -C /tmp \
     && rm /tmp/ruTorrent.tar.gz \
     && mv /tmp/ruTorrent-* /rutorrent \
@@ -36,7 +37,7 @@ ADD ./config.php /rutorrent/conf/
 ADD nginx.conf /etc/nginx/
 
 # Add php-fpm config
-ADD php-fpm.conf /etc/php5/php-fpm.conf
+ADD php-fpm.conf /etc/php7/php-fpm.conf
 
 # Add init script
 ADD init.sh /

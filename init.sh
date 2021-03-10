@@ -16,6 +16,7 @@ chown -R rtorrent /watch /config/.rtorrent.rc
 chown -R rtorrent:share /downloads
 
 rm -f /downloads/.session/rtorrent.lock
+rm -f /config/.session/rtorrent.lock
 
 rm /rutorrent/.htpasswd
 
@@ -35,5 +36,8 @@ fi
 rm /tmp/output 2> /dev/null
 mkfifo /tmp/output
 grep -v "INFO reaped unknown pid" < /tmp/output &
+
+# Start plugins (hope rtorrent initalization is done in time
+sh -c "sleep 1000 && php7 /rutorrent/php/initplugins.php" &
 
 exec supervisord -c /etc/supervisor/supervisord.conf > /tmp/output
